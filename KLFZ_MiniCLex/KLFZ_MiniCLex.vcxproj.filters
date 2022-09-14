@@ -13,18 +13,30 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Lex">
+      <UniqueIdentifier>{b155f450-47e6-421b-bef5-031a9bec4e46}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Lex.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="ArgManager.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Lex.cpp">
+      <Filter>Lex</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArgManager.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Lex.h">
+      <Filter>Lex</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniC.h">
+      <Filter>Lex</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniC.cpp">
+      <Filter>Lex</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
