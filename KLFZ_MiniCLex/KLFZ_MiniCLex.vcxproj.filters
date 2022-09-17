@@ -16,19 +16,22 @@
     <Filter Include="Lex">
       <UniqueIdentifier>{b155f450-47e6-421b-bef5-031a9bec4e46}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ArgManager">
+      <UniqueIdentifier>{6c6cbf7e-dc28-490c-939a-112e37bc8aa2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ArgManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Lex.cpp">
       <Filter>Lex</Filter>
     </ClCompile>
+    <ClCompile Include="ArgManager.cpp">
+      <Filter>ArgManager</Filter>
+    </ClCompile>
+    <ClCompile Include="KLFZ_Lex.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ArgManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Lex.h">
       <Filter>Lex</Filter>
     </ClInclude>
@@ -37,6 +40,9 @@
     </ClInclude>
     <ClInclude Include="MiniC.cpp">
       <Filter>Lex</Filter>
+    </ClInclude>
+    <ClInclude Include="ArgManager.h">
+      <Filter>ArgManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

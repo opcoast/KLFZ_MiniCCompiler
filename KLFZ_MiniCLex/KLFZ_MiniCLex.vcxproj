@@ -132,6 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ArgManager.cpp" />
+    <ClCompile Include="KLFZ_Lex.cpp" />
     <ClCompile Include="Lex.cpp" />
   </ItemGroup>
   <ItemGroup>
