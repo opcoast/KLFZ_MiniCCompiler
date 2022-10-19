@@ -1,0 +1,4 @@
+install these with vcpkg
+1. args
+2. pystring
+3. fmt

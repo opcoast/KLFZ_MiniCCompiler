@@ -141,6 +141,9 @@
     <ClInclude Include="MiniC.cpp" />
     <ClInclude Include="MiniC.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="requirements.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
