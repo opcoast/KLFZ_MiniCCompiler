@@ -21,28 +21,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Lex.cpp">
-      <Filter>Lex</Filter>
-    </ClCompile>
-    <ClCompile Include="ArgManager.cpp">
-      <Filter>ArgManager</Filter>
-    </ClCompile>
     <ClCompile Include="KLFZ_Lex.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Lex.h">
+    <ClInclude Include="Lex.hpp">
       <Filter>Lex</Filter>
     </ClInclude>
-    <ClInclude Include="MiniC.h">
+    <ClInclude Include="MiniC.hpp">
       <Filter>Lex</Filter>
     </ClInclude>
-    <ClInclude Include="MiniC.cpp">
-      <Filter>Lex</Filter>
-    </ClInclude>
-    <ClInclude Include="ArgManager.h">
+    <ClInclude Include="ArgManager.hpp">
       <Filter>ArgManager</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowModel.hpp">
+      <Filter>Lex</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

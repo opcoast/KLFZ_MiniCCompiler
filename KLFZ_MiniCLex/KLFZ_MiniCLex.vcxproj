@@ -106,6 +106,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,6 +123,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,15 +133,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ArgManager.cpp" />
     <ClCompile Include="KLFZ_Lex.cpp" />
-    <ClCompile Include="Lex.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ArgManager.h" />
-    <ClInclude Include="Lex.h" />
-    <ClInclude Include="MiniC.cpp" />
-    <ClInclude Include="MiniC.h" />
+    <ClInclude Include="ArgManager.hpp" />
+    <ClInclude Include="FlowModel.hpp" />
+    <ClInclude Include="Lex.hpp" />
+    <ClInclude Include="MiniC.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="requirements.txt" />

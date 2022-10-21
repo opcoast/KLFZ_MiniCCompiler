@@ -1,6 +1,5 @@
 #pragma once
 #include<args.hxx>
-class ArgManager
-{
-};
+class ArgManager {
 
+};
