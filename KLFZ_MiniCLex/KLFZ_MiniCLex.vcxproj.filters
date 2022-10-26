@@ -13,18 +13,38 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Lex">
+      <UniqueIdentifier>{b155f450-47e6-421b-bef5-031a9bec4e46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ArgManager">
+      <UniqueIdentifier>{6c6cbf7e-dc28-490c-939a-112e37bc8aa2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Lex.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ArgManager.cpp">
+    <ClCompile Include="KLFZ_Lex.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ArgManager.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="Lex.hpp">
+      <Filter>Lex</Filter>
     </ClInclude>
+    <ClInclude Include="MiniC.hpp">
+      <Filter>Lex</Filter>
+    </ClInclude>
+    <ClInclude Include="ArgManager.hpp">
+      <Filter>ArgManager</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowModel.hpp">
+      <Filter>Lex</Filter>
+    </ClInclude>
+    <ClInclude Include="Lexer.hpp">
+      <Filter>ArgManager</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="requirements.txt">
+      <Filter>资源文件</Filter>
+    </Text>
   </ItemGroup>
 </Project>
