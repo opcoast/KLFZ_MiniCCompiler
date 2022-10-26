@@ -59,10 +59,10 @@ namespace lexer {
 		void before(const string& stream)
 		{
 			props.stream = string(stream);
-			// Ìæ»»¶àÓàµÄ»»ÐÐ·û
+			// ï¿½æ»»ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½Ð·ï¿½
 			props.stream =
 				std::regex_replace(props.stream, std::regex("\n+"), "\n");
-			// É¾³ýÐÐ×¢ÊÍºÍ¿é×¢ÊÍ
+			// É¾ï¿½ï¿½ï¿½ï¿½×¢ï¿½ÍºÍ¿ï¿½×¢ï¿½ï¿½
 			props.stream =
 				std::regex_replace(props.stream, std::regex(R"(\/\/[^\n]*)"), "\n");
 			props.stream =
