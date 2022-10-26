@@ -1,22 +1,13 @@
 #include <iostream>
 #include <fmt/format.h>
-#include "Lex.hpp"
+#include "Lexer.hpp"
 #include "ArgManager.hpp"
 
 using namespace std;
-int main()
+int main(int argc, char** argv)
 {
-	string stream = R"(
-int main(){
-char '\b';
-$0x0001 = 0XfFfF;
-cout << "Hello World" << endl;
-return 0;
-}
-)";
-	lexer::start(stream);
-	for (auto& token : lexer::DFA::result.tokens) {
-		cout << token.toString() << endl;
-	}
+	Lexer* lexer;
+	lexer = LexerFactory("network");
+	lexer->start();
 	return 0;
 }

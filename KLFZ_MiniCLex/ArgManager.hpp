@@ -1,5 +1,5 @@
 #pragma once
 #include<args.hxx>
-class ArgManager {
-
-};
+namespace MiniCLex{
+	void parseArgs(int argc, char** argv);
+}
