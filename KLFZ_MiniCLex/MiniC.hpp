@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+
 namespace mini_c
 {
 	using std::string, std::unordered_map;
@@ -494,4 +495,5 @@ namespace mini_c
 			return DFA_STATE.at("RESET");
 		}
 	};
+
 }

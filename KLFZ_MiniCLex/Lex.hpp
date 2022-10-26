@@ -1,15 +1,22 @@
 #pragma once
+#include "MiniC.hpp"
 #include "FlowModel.hpp"
 #include <regex>
+#include <sstream>
 
 // Input stream reader
+
 namespace lexer {
 	using std::string;
+	mini_c::MiniCFlowModel flowModel;
+    namespace DFA{
+        void filterTokens();
+    }
 	// Input stream reader
 	namespace ISR {
 		struct ISR_props {
-			string stream = "";
-			int length = 0;
+			string stream;
+			size_t length = 0;
 			int seq = 0;
 		} props;
 
@@ -21,7 +28,8 @@ namespace lexer {
 			props.length = 0;
 			props.seq = 0;
 		}
-		void before(string& stream)
+
+		void before(const string& stream)
 		{
 			props.stream = string(stream);
 			// Ìæ»»¶àÓàµÄ»»ÐÐ·û
@@ -40,13 +48,102 @@ namespace lexer {
 			props.seq = 0;
 			props.length = stream.length();
 		}
+
 		void after()
 		{
+			DFA::filterTokens();
+		}
 
+		string nextChar()
+		{
+			int seq = props.seq;
+			if(seq<=props.length - 1)
+				return {props.stream[seq]};
+			return "";
+		}
+
+		bool isLastChar()
+		{
+			return props.seq == props.length - 1;
+		}
+
+		void read()
+		{
+			// TODO
 		}
 	}
 
 	namespace DFA {
-		int state;
+		using std::string, std::vector;
+		struct Result
+		{
+			vector<string> matches;
+			vector<token> tokens;
+		} result;
+		
+		int state = 0; // 0 is the default state id of RESET
+
+		void toDefault()
+		{
+			state = 0;
+			result.matches.clear();
+			result.tokens.clear();
+		}
+
+		void pushToTokens(const token& token) {
+			result.tokens.push_back(token);
+			result.matches.clear();
+		}
+
+		void pushToMatches(const string& match) {
+			result.matches.push_back(match);
+		}
+
+		void filterTokens() {
+			vector<token> tokens;
+			for (auto& token : result.tokens) {
+				if (token.value != " " 
+					&& token.value != "\n" 
+					&& token.value != "\t" 
+					&& token.value != "\r") {
+					tokens.push_back(token);
+				}
+			}
+			result.tokens = tokens;
+		}
+
+		void produceToken() {
+			if (!result.matches.empty()) {
+				std::stringstream ss;
+				for (auto& match : result.matches) {
+					ss << match;
+				}
+				string value = ss.str();
+				string type = mini_c::getTokenType(value);
+				pushToTokens({type,value});
+			}
+		}
+
+		void flowToNextState(const string& ch, int nextState) {
+			pushToMatches(ch);
+			state = nextState;
+		}
+		
+		void flowToResetState() {
+			state = mini_c::DFA_STATE.at("RESET");
+		}
+	}
+	
+	void resetDefault() {
+		DFA::toDefault();
+		ISR::toDefault();
+		flowModel.toDefault();
+	}
+
+	void start(const string& stream) {
+		resetDefault();
+		ISR::before(stream);
+		ISR::read();
+		ISR::after();
 	}
 }

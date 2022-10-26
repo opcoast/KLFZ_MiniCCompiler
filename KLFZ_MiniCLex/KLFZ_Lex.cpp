@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fmt/format.h>
-#include "MiniC.hpp"
 #include "Lex.hpp"
 #include "ArgManager.hpp"
 
