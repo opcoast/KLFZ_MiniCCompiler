@@ -38,6 +38,9 @@
     <ClInclude Include="FlowModel.hpp">
       <Filter>Lex</Filter>
     </ClInclude>
+    <ClInclude Include="Lexer.hpp">
+      <Filter>ArgManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="requirements.txt">

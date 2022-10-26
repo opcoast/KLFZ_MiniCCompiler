@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+
 namespace mini_c
 {
 	using std::string, std::unordered_map;
@@ -110,6 +111,7 @@ namespace mini_c
 		{"CHAR", 22},
 		{"CHAR_END", 23},
 		{"CHAR_ESCAPE",24},
+		{"HEX_NUMBER",25},
 		{"END", 100}
 	};
 
@@ -155,7 +157,7 @@ namespace mini_c
 		{"S_BIT_AND", {OP_MAP.at("B_AND")}},
 		// ||
 		{"F_BIT_OR", {OP_MAP.at("B_OR")}},
-		{"S_OR", {OP_MAP.at("B_OR")}},
+		{"S_BIT_OR", {OP_MAP.at("B_OR")}},
 		// >>
 		{"F_GT", {OP_MAP.at("GT")}},
 		{"S_GT", {OP_MAP.at("GT")}},
@@ -208,6 +210,7 @@ namespace mini_c
 		// number float string char
 		{"NUMBER", DFA_STATE_ID.at("NUMBER")},
 		{"FLOAT", DFA_STATE_ID.at("FLOAT")},
+		{"HEX_NUMBER",DFA_STATE_ID.at("HEX_NUMBER")},
 		{"STRING", DFA_STATE_ID.at("STRING")},
 		{"STRING_ESCAPE", DFA_STATE_ID.at("STRING_ESCAPE")},
 		{"STRING_END", DFA_STATE_ID.at("STRING_END")},
@@ -241,14 +244,14 @@ namespace mini_c
 	string getTokenType(int state, const string& token)
 	{
 		string tokenType = getTokenType(token);
-		if (!tokenType.empty())
+		if (tokenType != "")
 			return tokenType;
 		if (state == DFA_STATE.at("SPACE"))
 			return "SPACE";
 		if (state == DFA_STATE.at("NEWLINE"))
 			return "NEWLINE";
 		if (state == DFA_STATE.at("IDENTIFIER"))
-			return "Identifier";
+			return "IDENTIFIER";
 		if (state == DFA_STATE.at("NUMBER"))
 			return "Number";
 		if (state == DFA_STATE.at("FLOAT"))
@@ -257,6 +260,8 @@ namespace mini_c
 			return "String";
 		if (state == DFA_STATE.at("CHAR_END"))
 			return "Char";
+		if (state == DFA_STATE.at("HEX_NUMBER"))
+			return "HEXNUM";
 		return "UNKNOWN";
 	}
 
@@ -266,9 +271,9 @@ namespace mini_c
 			return DFA_STATE.at("F_BIT_AND");
 		if (isInArr(ch, CHARSET.at("F_BIT_OR")))
 			return DFA_STATE.at("F_BIT_OR");
-		if (isInArr(ch, CHARSET.at("F_GREAT")))
+		if (isInArr(ch, CHARSET.at("F_GT")))
 			return DFA_STATE.at("F_GT");
-		if (isInArr(ch, CHARSET.at("F_LESS")))
+		if (isInArr(ch, CHARSET.at("F_LT")))
 			return DFA_STATE.at("F_LT");
 		if (isInArr(ch, CHARSET.at("F_NOT")))
 			return DFA_STATE.at("F_NOT");
@@ -283,9 +288,9 @@ namespace mini_c
 			return DFA_STATE.at("S_BIT_AND");
 		if (isInArr(ch, CHARSET.at("S_BIT_OR")))
 			return DFA_STATE.at("S_BIT_OR");
-		if (isInArr(ch, CHARSET.at("S_GREAT")))
+		if (isInArr(ch, CHARSET.at("S_T")))
 			return DFA_STATE.at("S_GT");
-		if (isInArr(ch, CHARSET.at("S_LESS")))
+		if (isInArr(ch, CHARSET.at("S_T")))
 			return DFA_STATE.at("S_LT");
 		if (isInArr(ch, CHARSET.at("S_ASSIGN")))
 			return DFA_STATE.at("S_ASSIGN");
@@ -316,8 +321,8 @@ namespace mini_c
 	{
 		return isInArr(ch, CHARSET.at("F_BIT_AND")) ||
 			isInArr(ch, CHARSET.at("F_BIT_OR")) ||
-			isInArr(ch, CHARSET.at("F_GREAT")) ||
-			isInArr(ch, CHARSET.at("F_LESS")) ||
+			isInArr(ch, CHARSET.at("F_GT")) ||
+			isInArr(ch, CHARSET.at("F_LT")) ||
 			isInArr(ch, CHARSET.at("F_NOT")) ||
 			isInArr(ch, CHARSET.at("F_ASSIGN"));
 	}
@@ -326,8 +331,8 @@ namespace mini_c
 	{
 		return isInArr(ch, CHARSET.at("S_BIT_AND")) ||
 			isInArr(ch, CHARSET.at("S_BIT_OR")) ||
-			isInArr(ch, CHARSET.at("S_GREAT")) ||
-			isInArr(ch, CHARSET.at("S_LESS")) ||
+			isInArr(ch, CHARSET.at("S_GT")) ||
+			isInArr(ch, CHARSET.at("S_LT")) ||
 			isInArr(ch, CHARSET.at("S_ASSIGN"));
 	}
 
@@ -356,10 +361,17 @@ namespace mini_c
 		return isSecondChar(ch);
 	}
 	
-	struct MiniCFlowModel :public FlowModel {
-		vector<path> resultPaths = {};
+	bool isHexChar(const string& ch) {
+		char c = ch[0];
+		return (c <= '9' and c >= '0')
+			or (c <= 'F' and c >= 'A')
+			or (c <= 'f' and c >= 'F');
+	}
 
-		void pathGrow(const path& path)
+	struct MiniCFlowModel :public FlowModel {
+		vector<Path> resultPaths = {};
+
+		void pathGrow(const Path& path)
 		{
 			resultPaths.push_back(path);
 		}
@@ -372,7 +384,7 @@ namespace mini_c
 		int getNextState(const string& ch, int state, vector<string>& matches)
 		{
 			// handling string
-			if (isInStates(state, { DFA_STATE.at("STRING"),DFA_STATE.at("STRING_ESCAP") }))
+			if (isInStates(state, { DFA_STATE.at("STRING"),DFA_STATE.at("STRING_ESCAPE") }))
 			{
 				if (state == DFA_STATE.at("STRING") && ch == OP_MAP.at("ESCAPE"))
 					return DFA_STATE.at("STRING_ESCAPE");
@@ -409,15 +421,30 @@ namespace mini_c
 				}
 			}
 
+			// hex numbers
+			if (isHexChar(ch)) {
+				if (isInStates(state, { DFA_STATE.at("HEX_NUMBER") })) {
+					return DFA_STATE.at("HEX_NUMBER");
+				}
+			}
+
 			// others
 			if (isAlphabetChar(ch)) {
 				if (isInStates(state, { DFA_STATE.at("RESET") , DFA_STATE.at("IDENTIFIER") })) {
 					return DFA_STATE.at("IDENTIFIER");
 				}
+				if (isInStates(state, { DFA_STATE.at("HEX_NUMBER") })
+					and (ch == "x" or ch == "X")
+					and matches.size() == 1)
+					return DFA_STATE.at("HEX_NUMBER");
 			}
 
 			// integers and floats
+			// TODO support hex number like 0x|X digit
 			else if (isNumberChar(ch)) {
+				if (isInStates(state, { DFA_STATE.at("RESET") })
+					and ch == "0")
+					return DFA_STATE.at("HEX_NUMBER");
 				if (isInStates(state, { DFA_STATE.at("RESET"),DFA_STATE.at("NUMBER") }))
 					return DFA_STATE.at("NUMBER");
 				if (isInStates(state, { DFA_STATE.at("FLOAT") }))
@@ -494,4 +521,5 @@ namespace mini_c
 			return DFA_STATE.at("RESET");
 		}
 	};
+
 }

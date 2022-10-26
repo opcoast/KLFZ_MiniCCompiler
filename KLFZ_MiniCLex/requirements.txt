@@ -2,3 +2,9 @@ install these with vcpkg
 1. args
 2. pystring
 3. fmt
+
+-i --it 
+-n --network
+-f --file
+--input_path
+--output_path

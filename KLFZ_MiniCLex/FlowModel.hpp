@@ -3,7 +3,7 @@
 #include <string>
 #include <fmt/core.h>
 
-struct path {
+struct Path {
 	int state;
 	std::string ch;
 	int nextState;
@@ -20,8 +20,8 @@ struct token {
 };
 
 struct FlowModel {
-	std::vector<path> resultPaths;
-	virtual void pathGrow(const path& path) = 0;
+	std::vector<Path> resultPaths;
+	virtual void pathGrow(const Path& Path) = 0;
 	virtual void toDefault() = 0;
 	virtual int getNextState(
 		const std::string& ch, 
